@@ -1,0 +1,200 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Self-Defense Guides',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: const GuideListScreen(),
+    );
+  }
+}
+
+class GuideListScreen extends StatelessWidget {
+  const GuideListScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Self-Defense Guides'),
+        backgroundColor: Colors.redAccent,
+      ),
+      backgroundColor: Colors.grey[200],
+      body: ListView.builder(
+        itemCount: guides.length,
+        itemBuilder: (context, index) {
+          return Container(
+            margin: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: ListTile(
+              leading: const Icon(Icons.security, color: Colors.redAccent),
+              title: Text(
+                guides[index].title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+              ),
+              subtitle: Text(
+                guides[index].description,
+                style: TextStyle(color: Colors.grey[800]),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GuideDetailScreen(guide: guides[index]),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class GuideDetailScreen extends StatelessWidget {
+  final Guide guide;
+
+  const GuideDetailScreen({super.key, required this.guide});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(guide.title),
+        backgroundColor: Colors.redAccent,
+      ),
+      backgroundColor: Colors.grey[200],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              guide.title,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue),
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              'Description:',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              guide.description,
+              style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Steps:',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),
+            ),
+            const SizedBox(height: 10),
+            for (int i = 0; i < guide.steps.length; i++)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${i + 1}. ${guide.steps[i]}',
+                    style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+                  ),
+                  const SizedBox(height: 5),
+                ],
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Guide {
+  final String title;
+  final String description;
+  final List<String> steps;
+
+  Guide({
+    required this.title,
+    required this.description,
+    required this.steps,
+  });
+}
+
+List<Guide> guides = [
+  Guide(
+    title: 'Headlock Escape',
+    description: 'Learn how to escape from a headlock.',
+    steps: [
+      'Stay calm and focused.',
+      'Raise one arm up and across the attacker’s face.',
+      'Turn your body to face the attacker.',
+      'Use your other arm to push against the attacker’s head.',
+      'Step back and break free from the lock.',
+    ],
+  ),
+  Guide(
+    title: 'Bear Hug Escape',
+    description: 'Protect yourself from a bear hug attack.',
+    steps: [
+      'Keep your chin down and your hands up to protect your face.',
+      'Bend your knees and lower your center of gravity.',
+      'Use your elbows to strike the attacker’s ribs or face.',
+      'Push your hips forward and break free from the hug.',
+    ],
+  ),
+  Guide(
+    title: 'Wrist Grab Release',
+    description: 'Learn techniques to escape from a wrist grab.',
+    steps: [
+      'Stay calm and focused.',
+      'Rotate your arm to break free from the grip.',
+      'Move away from the attacker and seek help if necessary.',
+    ],
+  ),
+  Guide(
+    title: 'Chokehold Defense',
+    description: 'Protect yourself from a chokehold.',
+    steps: [
+      'Stay calm and try to remain conscious.',
+      'Use your hands to push against the attacker’s arms.',
+      'Step to the side and drop your weight to break the grip.',
+      'Counterattack if possible and get away from the attacker.',
+    ],
+  ),
+  Guide(
+    title: 'Frontal Hair Grab Escape',
+    description: 'Learn how to escape from a frontal hair grab.',
+    steps: [
+      'Stay calm and focused.',
+      'Grab the attacker’s hand and bend your knees slightly.',
+      'Push the attacker’s hand downward and pull your head away.',
+      'Strike the attacker if necessary and get away quickly.',
+    ],
+  ),
+];
